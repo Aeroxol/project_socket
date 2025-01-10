@@ -3,11 +3,15 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "type" : "module",
   "dependencies": {
     "dotenv": "^16.4.7",
     "lodash": "^4.17.21",
     "long": "^5.2.4",
     "protobufjs": "^7.4.0",
     "uuid": "^11.0.5"
+  },
+  "scripts": {
+    "dev": "node server.js"
   }
 }
