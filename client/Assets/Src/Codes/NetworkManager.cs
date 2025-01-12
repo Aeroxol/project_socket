@@ -29,8 +29,10 @@ public class NetworkManager : MonoBehaviour
         wait = new WaitForSecondsRealtime(5);
     }
     public void OnStartButtonClicked() {
-        string ip = ipInputField.text;
-        string port = portInputField.text;
+        // string ip = ipInputField.text;
+        // string port = portInputField.text;
+        string ip = "127.0.0.1";
+        string port = "3000";
 
         if (IsValidPort(port)) {
             int portNumber = int.Parse(port);
