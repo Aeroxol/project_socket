@@ -2,6 +2,7 @@ import net from 'net';
 import { readHeader, writeHeader } from './src/utils.js';
 import { HANDLER_ID, MAX_MESSAGE_LENGTH, TOTAL_LENGTH_SIZE } from './src/constants.js';
 import handlers from './src/handlers/index.js';
+import initServer from './src/init/index.js';
 
 const server = net.createServer((socket) => {
     console.log('A user connected');
@@ -54,6 +55,14 @@ const server = net.createServer((socket) => {
 });
 
 const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+
+initServer()
+  .then(() => {
+    server.listen(PORT, () => {
+        console.log(`Server is running on port ${PORT}`);
+    });
+  })
+  .catch((error) => {
+	  console.error(error);
+    process.exit(1); // 오류 발생 시 프로세스 종료
+  });
