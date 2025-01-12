@@ -1,8 +1,9 @@
 import net from 'net';
 import { readHeader, writeHeader } from './src/utils.js';
-import { HANDLER_ID, MAX_MESSAGE_LENGTH, TOTAL_LENGTH_SIZE } from './src/constants.js';
+import { PACKET_TYPE_LENGTH, MAX_MESSAGE_LENGTH, TOTAL_LENGTH } from './src/constants/header.js';
 import handlers from './src/handlers/index.js';
 import initServer from './src/init/index.js';
+import { config } from './src/config/config.js';
 
 const server = net.createServer((socket) => {
     console.log('A user connected');
@@ -33,7 +34,7 @@ const server = net.createServer((socket) => {
             return;
         }
 
-        const headerSize = TOTAL_LENGTH_SIZE + HANDLER_ID;
+        const headerSize = TOTAL_LENGTH + PACKET_TYPE_LENGTH;
         const message = buffer.slice(headerSize);
 
         const responseMessage = handler(message);
@@ -54,15 +55,13 @@ const server = net.createServer((socket) => {
     })
 });
 
-const PORT = process.env.PORT || 3000;
-
 initServer()
-  .then(() => {
-    server.listen(PORT, () => {
-        console.log(`Server is running on port ${PORT}`);
+    .then(() => {
+        server.listen(config.server.port, () => {
+            console.log(`Server is running on port ${config.server.port}`);
+        });
+    })
+    .catch((error) => {
+        console.error(error);
+        process.exit(1); // 오류 발생 시 프로세스 종료
     });
-  })
-  .catch((error) => {
-	  console.error(error);
-    process.exit(1); // 오류 발생 시 프로세스 종료
-  });
