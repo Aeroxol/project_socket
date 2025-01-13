@@ -14,9 +14,10 @@ export const packetParser = (data) => {
     console.error(error);
   }
 
+  console.log(packet);
   const handlerId = packet.handlerId;
   const userId = packet.userId;
-  const clientVersion = packet.clientVersion;
+  const clientVersion = packet.version;
   const sequence = packet.sequence;
 
   // clientVersion 검증

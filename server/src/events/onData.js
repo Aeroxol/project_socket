@@ -2,6 +2,7 @@ import { config } from '../config/config.js';
 import { packetParser } from '../utils/parser/packetParser.js';
 import { getHandlerById } from '../handlers/index.js'
 import { PACKET_TYPE } from '../constants/header.js';
+import { getUserById } from '../session/user.session.js';
 
 export const onData = (socket) => async (data) => {
   console.log(data);
