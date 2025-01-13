@@ -1,5 +1,5 @@
 import { PORT, HOST, CLIENT_VERSION } from '../constants/env.js';
-import { PACKET_TYPE_LENGTH, TOTAL_LENGTH } from '../constants/header.js';
+import { PACKET_TYPE, TOTAL_LENGTH } from '../constants/header.js';
 
 export const config = {
   server: {
@@ -11,7 +11,7 @@ export const config = {
   },
   packet: {
     totalLength: TOTAL_LENGTH,
-    typeLength: PACKET_TYPE_LENGTH,
+    typeLength: PACKET_TYPE,
   },
   // 필요한 만큼 추가
 };

@@ -1,4 +1,4 @@
-import { PACKET_TYPE_LENGTH, TOTAL_LENGTH } from "./constants/header.js";
+import { PACKET_TYPE_LENGTH, TOTAL_LENGTH } from "../constants/header.js";
 
 // read header from buffer
 export const readHeader = (buffer) => {
