@@ -1,11 +1,13 @@
 import { config } from '../config/config.js';
-import { packetParser } from '../utils/parser/packetParser.js';
-import { getHandlerById } from '../handlers/index.js'
 import { PACKET_TYPE } from '../constants/header.js';
+import { packetParser } from '../utils/parser/packetParser.js';
+import { getHandlerById } from '../handlers/index.js';
 import { getUserById } from '../session/user.session.js';
+import { handleError } from '../utils/error/errorHandler.js';
+import CustomError from '../utils/error/customError.js';
+import { ErrorCodes } from '../utils/error/errorCodes.js';
 
 export const onData = (socket) => async (data) => {
-  console.log(data);
   // 기존 버퍼에 새로 수신된 데이터를 추가
   socket.buffer = Buffer.concat([socket.buffer, data]);
 
@@ -25,24 +27,25 @@ export const onData = (socket) => async (data) => {
       const packet = socket.buffer.slice(totalHeaderLength, length);
       socket.buffer = socket.buffer.slice(length);
 
-      console.log(`length: ${length}`);
-      console.log(`packetType: ${packetType}`);
-      console.log(packet);
+      try {
+        switch (packetType) {
+          case PACKET_TYPE.PING:
+            break;
+          case PACKET_TYPE.NORMAL:
+            const { handlerId, payload, userId } = packetParser(packet);
 
-      switch (packetType) {
-        case PACKET_TYPE.PING:
-          break;
-        case PACKET_TYPE.NORMAL:
-          const { handlerId, sequence, payload, userId } = packetParser(packet);
+            console.log({ handlerId, payload, userId })
+            const user = getUserById(userId);
 
-          const user = getUserById(userId);
-          // 유저가 접속해 있는 상황에서 시퀀스 검증
-          if (user && user.sequence !== sequence) {
-            console.error('잘못된 호출 값입니다.');
-          }
-
-          const handler = getHandlerById(handlerId);
-          await handler({ socket, userId, payload });
+            const handler = getHandlerById(handlerId);
+            await handler({
+              socket,
+              userId,
+              payload,
+            });
+        }
+      } catch (error) {
+        handleError(socket, error);
       }
     } else {
       // 아직 전체 패킷이 도착하지 않음
