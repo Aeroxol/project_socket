@@ -5,4 +5,7 @@ export const packetNames = {
     response: {
         Response: 'response.Response',
     },
+    initial: {
+        InitialPacket: 'initial.InitialPacket',
+    },
 };

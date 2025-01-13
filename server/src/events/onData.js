@@ -1,6 +1,7 @@
 import { config } from '../config/config.js';
 import { PACKET_TYPE, TOTAL_LENGTH } from '../constants/header.js';
 import { packetParser } from '../utils/parser/packetParser.js';
+import { getHandlerById } from '../handlers/index.js'
 
 export const onData = (socket) => async (data) => {
   // 기존 버퍼에 새로 수신된 데이터를 추가
@@ -31,6 +32,9 @@ export const onData = (socket) => async (data) => {
           break;
         case PACKET_TYPE.NORMAL:
           const { handlerId, sequence, payload, userId } = packetParser(packet);
+
+          const handler = getHandlerById(handlerId);
+          await handler({ socket, userId, payload });
 
           console.log('handlerId:', handlerId);
           console.log('userId:', userId);
