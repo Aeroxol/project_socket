@@ -47,7 +47,7 @@ client.connect(PORT, HOST, async () => {
 
     const message = {
         handlerId: 0,
-        playerId: 'xyz',
+        playerId: 5555,
         version: '1.0.0',
         payload: { deviceId: 'xxxx' },
     };

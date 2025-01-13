@@ -14,11 +14,12 @@ export const packetParser = (data) => {
     console.error(error);
   }
 
-  console.log(packet);
   const handlerId = packet.handlerId;
-  const userId = packet.userId;
+  const userId = packet.playerId;
   const clientVersion = packet.version;
-  const sequence = packet.sequence;
+  let payload = packet.payload;
+
+  console.log({ handlerId, userId, clientVersion, payload });
 
   // clientVersion 검증
   if (clientVersion !== config.client.version) {
@@ -33,7 +34,6 @@ export const packetParser = (data) => {
 
   const [namespace, typeName] = protoTypeName.split('.');
   const PayloadType = protoMessages[namespace][typeName];
-  let payload;
 
   payload = PayloadType.decode(packet.payload);
 
@@ -51,5 +51,5 @@ export const packetParser = (data) => {
     console.error(`필수 필드가 누락되었습니다: ${missingFields.join(', ')}`)
   }
 
-  return { handlerId, userId, payload, sequence };
+  return { handlerId, userId, payload };
 };
