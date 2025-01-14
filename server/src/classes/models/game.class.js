@@ -24,6 +24,10 @@ class Game {
       this.state = 'waiting';
     }
   }
+
+  isFull(){
+    return this.users.length >= MAX_PLAYERS ? true : false;
+  }
 }
 
 export default Game;

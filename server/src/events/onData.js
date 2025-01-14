@@ -34,7 +34,6 @@ export const onData = (socket) => async (data) => {
           case PACKET_TYPE.NORMAL:
             const { handlerId, payload, userId } = packetParser(packet);
 
-            console.log({ handlerId, payload, userId })
             const user = getUserById(userId);
 
             const handler = getHandlerById(handlerId);
