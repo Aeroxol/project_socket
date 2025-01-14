@@ -5,4 +5,5 @@ export const MAX_MESSAGE_LENGTH = 1024;
 export const PACKET_TYPE = {
     PING: 0,
     NORMAL: 1,
+    LocationUpdate: 3,
 };

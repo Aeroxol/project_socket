@@ -229,7 +229,7 @@ public class NetworkManager : MonoBehaviour
             byte[] packetData = incompleteData.GetRange(5, packetLength - 5).ToArray();
             incompleteData.RemoveRange(0, packetLength);
 
-            Debug.Log($"Received packet: Length = {packetLength}, Type = {packetType}");
+            // Debug.Log($"Received packet: Length = {packetLength}, Type = {packetType}");
 
             switch (packetType)
             {
@@ -249,7 +249,7 @@ public class NetworkManager : MonoBehaviour
     void HandleNormalPacket(byte[] packetData) {
         // 패킷 데이터 처리
         var response = Packets.Deserialize<Response>(packetData);
-        Debug.Log($"HandlerId: {response.handlerId}, responseCode: {response.responseCode}, timestamp: {response.timestamp}");
+        // Debug.Log($"HandlerId: {response.handlerId}, responseCode: {response.responseCode}, timestamp: {response.timestamp}");
         
         if (response.responseCode != 0 && !uiNotice.activeSelf) {
             AudioManager.instance.PlaySfx(AudioManager.Sfx.LevelUp);
@@ -292,7 +292,7 @@ public class NetworkManager : MonoBehaviour
                 // data가 비어있을 경우 빈 배열을 전달
                 response = new LocationUpdate { users = new List<LocationUpdate.UserLocation>() };
             }
-
+            Debug.Log(response);
             Spawner.instance.Spawn(response);
         } catch (Exception e) {
             Debug.LogError($"Error HandleLocationPacket: {e.Message}");

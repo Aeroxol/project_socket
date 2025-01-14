@@ -2,7 +2,7 @@ import { HANDLER_IDS } from '../constants/handlerIds.js';
 import initialHandler from './user/initial.handler.js';
 import CustomError from '../utils/error/customError.js';
 import { ErrorCodes } from '../utils/error/errorCodes.js';
-import locationUpdateHandler from './locationUpdate.handler.js';
+import locationUpdateHandler from './user/locationUpdate.handler.js';
 
 const handlers = {
     [HANDLER_IDS.INITIAL]: {

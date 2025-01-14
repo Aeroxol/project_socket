@@ -21,3 +21,9 @@ export const getGameSession = (id) => {
 export const getAllGameSessions = () => {
   return gameSessions;
 };
+
+export const getGameSessionByUserId = (userId) => {
+  return gameSessions.find((session) => {
+    return session.users.some((e) => e.id === userId);
+  })
+}

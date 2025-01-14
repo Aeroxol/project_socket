@@ -10,5 +10,8 @@ export const packetNames = {
     },
     locationUpdate: {
         locationUpdatePacket: 'locationUpdate.locationUpdatePacket',
+    },
+    locationResponse: {
+        locationResponse: 'locationResponse.LocationResponse',
     }
 };

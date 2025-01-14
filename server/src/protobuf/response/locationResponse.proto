@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package locationResponse;
+
+message LocationResponse{
+    repeated Location location = 1;
+
+    message Location{
+        string id = 1;
+        uint32 playerId = 2;
+        float x = 3;
+        float y = 4;
+    }
+}
+
