@@ -9,22 +9,23 @@ import {v4 as uuidv4} from 'uuid';
 
 const initialHandler = async ({ socket, userId, payload }) => {
   try {
-    const { deviceId } = payload;
+    const { deviceId, playerId, latency } = payload;
 
     addUser(socket, deviceId);
 
+    const user = new User(deviceId, playerId, socket);
+    
     // 참가할 수 있는 방이 있는지 확인
     const emptyGame = gameSessions.find((e) => !e.isFull());
     if(!emptyGame){
       // 만약 방이 없다면 방을 생성하고 유저를 추가
       const gameId = uuidv4();
       const newSession = addGameSession(gameId);
-      newSession.addUser(new User(deviceId, socket));
+      newSession.addUser(user);
     }else{
       // 방이 있다면 방에 유저를 추가
-      emptyGame.addUser(new User(deviceId, socket));
+      emptyGame.addUser(user);
     }
-    console.log(gameSessions);
 
     // 유저 정보 응답 생성
     const initialResponse = createResponse(
