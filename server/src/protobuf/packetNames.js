@@ -8,4 +8,7 @@ export const packetNames = {
     initial: {
         InitialPacket: 'initial.InitialPacket',
     },
+    locationUpdate: {
+        locationUpdatePacket: 'locationUpdate.locationUpdatePacket',
+    }
 };
