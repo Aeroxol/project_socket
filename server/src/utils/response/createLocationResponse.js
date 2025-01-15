@@ -2,20 +2,11 @@ import { getProtoMessages } from '../../init/loadProtos.js';
 import { config } from '../../config/config.js';
 import { PACKET_TYPE } from '../../constants/header.js';
 
-export const createLocationResponse = (handlerId, responseCode, data = null) => {
+export const createLocationResponse = (data = null) => {
   const protoMessages = getProtoMessages();
-  const Response = protoMessages.locationResponse.locationResponse;
-  const Location = protoMessages.locationResponse.locationResponse.Location;
-  const locationData = Location.encode(data).finish();
+  const LocationUpdate = protoMessages.locationResponse.LocationUpdate;
 
-  const responsePayload = {
-    handlerId,
-    responseCode,
-    timestamp: Date.now(),
-    data: locationData ? locationData : null,
-  };
-
-  const buffer = Response.encode(responsePayload).finish();
+  const buffer = LocationUpdate.encode({ users: data }).finish();
 
   // 패킷 길이 정보를 포함한 버퍼 생성
   const packetLength = Buffer.alloc(config.packet.totalLength);

@@ -14,28 +14,23 @@ const locationUpdateHandler = ({ socket, userId, payload }) => {
     const user = getUserById(userId);
     user.x = x;
     user.y = y;
-    
+
     const gameSession = getGameSessionByUserId(userId);
-    
+
     const data = [];
-    for(var u of gameSession.users){
+    for (var u of gameSession.users) {
       data.push({
         id: u.id,
-        playerId : u.playerId,
-        x : u.x,
-        y : u.y,
+        playerId: u.playerId,
+        x: u.x,
+        y: u.y,
       });
     }
-    //console.log(data);
     // 유저 정보 응답 생성
-    const locationResponse = createLocationResponse(
-      HANDLER_IDS.LOCATION_UPDATE,
-      RESPONSE_SUCCESS_CODE,
-      data,
-    );
-    //console.log(locationResponse);
     // 소켓을 통해 게임 세션의 다른 플레이어들에게 메시지 전송
-    for(var u of gameSession.users){
+    for (var u of gameSession.users) {
+      const _data = data.filter(player => player.id !== u.id);
+      const locationResponse = createLocationResponse(_data);
       u.socket.write(locationResponse);
     }
   } catch (error) {

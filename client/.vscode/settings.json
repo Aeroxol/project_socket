@@ -56,5 +56,6 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "client.sln"
+    "dotnet.defaultSolution": "client.sln",
+    "git.ignoreLimitWarning": true
 }
