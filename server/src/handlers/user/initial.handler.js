@@ -31,13 +31,13 @@ const initialHandler = async ({ socket, userId, payload }) => {
       emptyGame.addUser(user);
     }
 
-    const { x, y } = await getUserPosition(deviceId);
+    const { last_x, last_y } = await getUserPosition(deviceId);
 
     // 유저 정보 응답 생성
     const initialResponse = createResponse(
       HANDLER_IDS.INITIAL,
       RESPONSE_SUCCESS_CODE,
-      { userId: deviceId, x: x, y: y }, // return initial position from db
+      { userId: deviceId, x: last_x, y: last_y }, // return initial position from db
       // deviceId,
     );
 
