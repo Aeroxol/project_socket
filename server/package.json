@@ -16,6 +16,7 @@
     "uuid": "^11.0.5"
   },
   "scripts": {
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "migrate" : "node src/db/migrations/createSchemas.js"
   }
 }

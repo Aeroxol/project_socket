@@ -50,8 +50,9 @@ public class Player : MonoBehaviour
         inputVec.x = Input.GetAxisRaw("Horizontal");
         inputVec.y = Input.GetAxisRaw("Vertical");
 
-        // 위치 이동 패킷 전송 -> 서버로
-        NetworkManager.instance.SendLocationUpdatePacket(rigid.position.x, rigid.position.y);
+        if(NetworkManager.instance.isConnected)
+            // 위치 이동 패킷 전송 -> 서버로
+            NetworkManager.instance.SendLocationUpdatePacket(rigid.position.x, rigid.position.y);
     }
 
 

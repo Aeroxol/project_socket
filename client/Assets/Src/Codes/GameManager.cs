@@ -57,6 +57,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void GameQuit() {
+        NetworkManager.instance.Disconnect();
         Application.Quit();
     }
 

@@ -5,11 +5,18 @@ import { handleError } from '../../utils/error/errorHandler.js';
 import { gameSessions } from '../../session/sessions.js';
 import { addGameSession } from '../../session/game.session.js';
 import { v4 as uuidv4 } from 'uuid';
+import { createUser, findUserByDeviceID, getUserPosition } from '../../db/user/user.db.js';
 
 const initialHandler = async ({ socket, userId, payload }) => {
   try {
     const { deviceId, playerId, latency } = payload;
     console.log({ deviceId, playerId, latency });
+
+    let userData = await findUserByDeviceID(deviceId);
+
+    if (!userData) {
+      userData = await createUser(deviceId);
+    }
     const user = addUser(socket, deviceId, playerId);
 
     // 참가할 수 있는 방이 있는지 확인
@@ -24,11 +31,13 @@ const initialHandler = async ({ socket, userId, payload }) => {
       emptyGame.addUser(user);
     }
 
+    const { x, y } = await getUserPosition(deviceId);
+
     // 유저 정보 응답 생성
     const initialResponse = createResponse(
       HANDLER_IDS.INITIAL,
       RESPONSE_SUCCESS_CODE,
-      { userId: deviceId, x: 0, y: 0 }, // return initial position from db
+      { userId: deviceId, x: x, y: y }, // return initial position from db
       // deviceId,
     );
 

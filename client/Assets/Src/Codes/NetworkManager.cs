@@ -21,6 +21,8 @@ public class NetworkManager : MonoBehaviour
     
     WaitForSecondsRealtime wait;
 
+    public bool isConnected = false;
+
     private byte[] receiveBuffer = new byte[4096];
     private List<byte> incompleteData = new List<byte>();
 
@@ -47,6 +49,7 @@ public class NetworkManager : MonoBehaviour
   
             if (ConnectToServer(ip, portNumber)) {
                 StartGame();
+                isConnected = true;
             } else {
                 AudioManager.instance.PlaySfx(AudioManager.Sfx.LevelUp);
                 StartCoroutine(NoticeRoutine(1));
@@ -55,6 +58,21 @@ public class NetworkManager : MonoBehaviour
         } else {
             AudioManager.instance.PlaySfx(AudioManager.Sfx.LevelUp);
             StartCoroutine(NoticeRoutine(0));
+        }
+    }
+
+    public void Disconnect(){
+        if (tcpClient != null)
+        {
+            if (tcpClient.Connected)
+            {
+            stream.Close();
+            tcpClient.Close();
+            }
+            tcpClient = null;
+            stream = null;
+            isConnected = false;
+            Debug.Log("Disconnected from server.");
         }
     }
 
