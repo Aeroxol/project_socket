@@ -274,7 +274,7 @@ public class NetworkManager : MonoBehaviour
             StartCoroutine(NoticeRoutine(2));
             return;
         }
-        Debug.Log(response.data);
+
         if (response.data != null && response.data.Length > 0) {
 
             switch ((Packets.HandlerIds) response.handlerId) 
