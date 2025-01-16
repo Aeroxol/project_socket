@@ -7,11 +7,16 @@ class User {
     this.socket = socket;
     this.x = 0;
     this.y = 0;
+    this.prev_x = 0;
+    this.prev_y = 0;
     this.sequence = 0;
+    this.latency = 1;
     this.lastUpdateTime = Date.now();
   }
 
   updatePosition(x, y) {
+    this.prev_x = x;
+    this.prev_y = y;
     this.x = x;
     this.y = y;
     this.lastUpdateTime = Date.now();

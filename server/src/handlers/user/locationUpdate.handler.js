@@ -1,9 +1,6 @@
 import { handleError } from "../../utils/error/errorHandler.js";
-import { createResponse } from "../../utils/response/createResponse.js";
-import { HANDLER_IDS, RESPONSE_SUCCESS_CODE } from "../../constants/handlerIds.js";
 import { getUserById } from "../../session/user.session.js";
 import { getGameSessionByUserId } from "../../session/game.session.js";
-import { PACKET_TYPE } from "../../constants/header.js";
 import { createLocationResponse } from "../../utils/response/createLocationResponse.js";
 
 const locationUpdateHandler = ({ socket, userId, payload }) => {
@@ -12,18 +9,21 @@ const locationUpdateHandler = ({ socket, userId, payload }) => {
 
     // 입력받은 정보를 바탕으로 서버 업데이트
     const user = getUserById(userId);
-    user.x = x;
-    user.y = y;
+    user.updatePosition(x, y);
 
     const gameSession = getGameSessionByUserId(userId);
+    const latency = gameSession.users.reduce((acc, cur) => acc + cur.latency, 0) / gameSession.users.length;
+
+    const predict_x = user.x + (user.x - user.prev_x) * 30 * latency / 1000;
+    const predict_y = user.y + (user.y - user.prev_y) * 30 * latency / 1000;
 
     const data = [];
     for (var u of gameSession.users) {
       data.push({
         id: u.id,
         playerId: u.playerId,
-        x: u.x,
-        y: u.y,
+        x: predict_x,
+        y: predict_y,
       });
     }
     // 유저 정보 응답 생성
