@@ -1,9 +1,12 @@
+import IntervalManager from "../managers/interval.manager.js";
+
 const MAX_PLAYERS = 24;
 
 class Game {
   constructor(id) {
     this.id = id;
     this.users = [];
+    this.intervalManager = new IntervalManager();
   }
 
   addUser(user) {
@@ -11,6 +14,8 @@ class Game {
       throw new Error('Game session is full');
     }
     this.users.push(user);
+
+    this.intervalManager.addPlayer(user.id, user.ping.bind(user), 1000);
   }
 
   getUser(userId) {

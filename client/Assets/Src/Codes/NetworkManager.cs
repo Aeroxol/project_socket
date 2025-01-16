@@ -292,7 +292,7 @@ public class NetworkManager : MonoBehaviour
                 // data가 비어있을 경우 빈 배열을 전달
                 response = new LocationUpdate { users = new List<LocationUpdate.UserLocation>() };
             }
-            Debug.Log(response);
+
             Spawner.instance.Spawn(response);
         } catch (Exception e) {
             Debug.LogError($"Error HandleLocationPacket: {e.Message}");

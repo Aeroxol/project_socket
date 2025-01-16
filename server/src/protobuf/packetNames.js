@@ -14,5 +14,8 @@ export const packetNames = {
     locationResponse: {
         LocationUpdate: 'locationResponse.LocationUpdate',
         UserLocation: 'locationResponse.UserLocation',
+    },
+    ping: {
+        Ping: 'ping.Ping',
     }
 };
