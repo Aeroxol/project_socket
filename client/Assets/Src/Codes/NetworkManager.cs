@@ -64,6 +64,7 @@ public class NetworkManager : MonoBehaviour
     public void Disconnect(){
         if (tcpClient != null)
         {
+            isConnected = false;
             if (tcpClient.Connected)
             {
             stream.Close();
@@ -71,7 +72,6 @@ public class NetworkManager : MonoBehaviour
             }
             tcpClient = null;
             stream = null;
-            isConnected = false;
             Debug.Log("Disconnected from server.");
         }
     }

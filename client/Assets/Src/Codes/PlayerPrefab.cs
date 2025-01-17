@@ -47,7 +47,7 @@ public class PlayerPrefab : MonoBehaviour
         lastPosition = currentPosition;
         currentPosition = new Vector3(x, y);
         transform.position = currentPosition;
-
+        // Debug.Log($"playerId: {playerId}, position: {transform.position}");
         UpdateAnimation();
     }
 
